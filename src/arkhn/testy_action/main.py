@@ -6,7 +6,7 @@ AUTH_TOKEN = os.environ["AUTH_TOKEN"]
 PROJECT_ID = os.environ["PROJECT_ID"]
 
 
-if __name__ == "__main__":
+def main():
     api = APIClient(auth_token=AUTH_TOKEN)
 
     ubuntu_image = api.find_image(name="Ubuntu 18.04 Bionic Beaver")
