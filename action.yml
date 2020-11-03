@@ -1,0 +1,5 @@
+name: "Testy action"
+description: "GitHub Action to run Arkhn's integration test suite"
+runs:
+  using: "docker"
+  image: "Dockerfile"

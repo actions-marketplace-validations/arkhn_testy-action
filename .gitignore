@@ -1,0 +1,20 @@
+# Unittests
+.tox/
+
+# Virtualenv
+.venv/
+
+# Python
+*.py[cod]
+__pycache__/
+
+# Distribution / packaging
+*.egg-info/
+
+# VSCode
+.vscode/
+!.vscode/settings.json
+
+# Misc
+*.env
+!.template.env
