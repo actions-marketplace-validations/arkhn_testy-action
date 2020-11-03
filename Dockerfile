@@ -26,6 +26,10 @@ COPY requirements requirements
 RUN pip install --no-cache-dir --upgrade pip
 RUN pip install --no-cache-dir -r requirements/base.txt
 
+# TODO(vmttn): install from pypi
+COPY ["setup.py", "README.md", "/srv/"]
+COPY src /srv/src
+RUN pip install --no-cache-dir .
 
 ########
 # This image is the runtime
@@ -52,9 +56,9 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy venv with compiled dependencies
-COPY --chown=uwsgi:uwsgi --from=compile-image /srv/venv /srv/venv
+COPY --from=compile-image /srv/venv /srv/venv
 
-COPY --chown=uwsgi:uwsgi "docker-entrypoint.sh" "/srv/"
+COPY "docker-entrypoint.sh" "/srv/"
 RUN chmod +x docker-entrypoint.sh
 
 ENTRYPOINT ["/srv/docker-entrypoint.sh"]
