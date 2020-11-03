@@ -1,0 +1,14 @@
+name: example
+
+on: push
+
+jobs:
+  tests:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          cloud-platform-token: ${{ secrets.CLOUD_PLATFORM_TOKEN }}
+          project-id: ${{ secrets.CLOUD_PROJECT_ID }}

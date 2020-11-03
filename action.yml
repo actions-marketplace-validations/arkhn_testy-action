@@ -1,5 +1,12 @@
 name: "Testy action"
 description: "GitHub Action to run Arkhn's integration test suite"
+inputs:
+  cloud-platform-token:
+    description: "API token to authenticate to target cloud platform"
+    required: true
+  project-id:
+    description: "Project ID on the cloud platform"
+    required: true
 runs:
   using: "docker"
   image: "Dockerfile"

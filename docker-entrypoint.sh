@@ -6,4 +6,4 @@ set -e
 # Trace execution
 [[ "${DEBUG}" ]] && set -x
 
-testy-action
+testy-action $@
