@@ -16,7 +16,9 @@ class APIClient:
         self.session.headers.update({"X-Auth-Token": auth_token})
 
     def list_images(self) -> List[dict]:
-        return self.session.get(f"{self.base_url}/images").json()["images"]
+        resp = self.session.get(f"{self.base_url}/images")
+        resp.raise_for_status()
+        return resp.json()["images"]
 
     def find_image(self, name: str) -> Optional[dict]:
         images = self.list_images()
@@ -40,13 +42,17 @@ class APIClient:
             "volumes": {},
             "project": project_id,
         }
-        return self.session.post(f"{self.base_url}/servers", json=data).json()["server"]
+        resp = self.session.post(f"{self.base_url}/servers", json=data)
+        resp.raise_for_status()
+        return resp.json()["server"]
 
     def perform_server_action(self, server_id: str, action: str):
         data = {"action": action}
-        return self.session.post(
+        resp = self.session.post(
             f"{self.base_url}/servers/{server_id}/action", json=data
-        ).json()
+        )
+        resp.raise_for_status()
+        return resp.json()
 
     def poweron_server(self, server_id):
         return self.perform_server_action(server_id, action="poweron")
@@ -55,4 +61,5 @@ class APIClient:
         return self.perform_server_action(server_id, action="poweroff")
 
     def delete_server(self, server_id: str):
-        return self.session.delete(f"{self.base_url}/servers/{server_id}")
+        resp = self.session.delete(f"{self.base_url}/servers/{server_id}")
+        return resp.raise_for_status()
