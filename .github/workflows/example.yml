@@ -10,5 +10,5 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ./
         with:
-          cloud-platform-token: ${{ secrets.CLOUD_PLATFORM_TOKEN }}
+          cloud-platform-token: ${{ secrets.CLOUD_TOKEN }}
           project-id: ${{ secrets.CLOUD_PROJECT_ID }}
