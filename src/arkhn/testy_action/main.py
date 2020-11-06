@@ -1,6 +1,6 @@
 import argparse
 
-from arkhn.testy_action.scaleway import APIClient, Image
+from arkhn.testy_action.provision import APIClient, Image
 
 
 def build_args_parser() -> argparse.ArgumentParser:
