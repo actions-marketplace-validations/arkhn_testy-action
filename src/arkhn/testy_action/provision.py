@@ -1,8 +1,9 @@
-from enum import Enum
 import logging
-import requests
 import time
+from enum import Enum
 from typing import List, Optional
+
+import requests
 
 KNOWN_ZONES = ["fr-par-1"]
 
