@@ -1,9 +1,13 @@
 from enum import Enum
+import logging
 import requests
 import time
 from typing import List, Optional
 
 KNOWN_ZONES = ["fr-par-1"]
+
+
+logger = logging.getLogger(__name__)
 
 
 class Image(Enum):
@@ -23,7 +27,11 @@ class APIClient:
 
     def list_images(self) -> List[dict]:
         resp = self.session.get(f"{self.base_url}/images")
-        resp.raise_for_status()
+        try:
+            resp.raise_for_status()
+        except requests.HTTPError as err:
+            logger.error(resp.json())
+            raise err
         return resp.json()["images"]
 
     def find_image(self, name: str) -> Optional[dict]:
@@ -51,7 +59,11 @@ class APIClient:
             "project": project_id,
         }
         resp = self.session.post(f"{self.base_url}/servers", json=data)
-        resp.raise_for_status()
+        try:
+            resp.raise_for_status()
+        except requests.HTTPError as err:
+            logger.error(resp.json())
+            raise err
         return resp.json()["server"]
 
     def get_server(self, server_id: str):
@@ -94,4 +106,9 @@ class APIClient:
 
     def delete_server(self, server_id: str):
         resp = self.session.delete(f"{self.base_url}/servers/{server_id}")
-        return resp.raise_for_status()
+        try:
+            resp.raise_for_status()
+        except requests.HTTPError as err:
+            logger.error(resp.json())
+            raise err
+        return resp.json()
