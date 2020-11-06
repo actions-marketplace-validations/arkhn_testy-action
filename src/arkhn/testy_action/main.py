@@ -56,6 +56,6 @@ def main():
 
     import time
 
-    time.sleep(20)
+    time.sleep(40)
 
     api.terminate_server(server["id"])
