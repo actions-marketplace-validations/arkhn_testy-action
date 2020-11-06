@@ -1,5 +1,6 @@
 from enum import Enum
 import requests
+import time
 from typing import List, Optional
 
 KNOWN_ZONES = ["fr-par-1"]
@@ -53,19 +54,43 @@ class APIClient:
         resp.raise_for_status()
         return resp.json()["server"]
 
-    def perform_server_action(self, server_id: str, action: str):
-        data = {"action": action}
-        resp = self.session.post(
-            f"{self.base_url}/servers/{server_id}/action", json=data
-        )
+    def get_server(self, server_id: str):
+        resp = self.session.get(f"{self.base_url}/servers/{server_id}")
         resp.raise_for_status()
-        return resp.json()
+        return resp.json()["server"]
+
+    def perform_server_action(self, server_id: str, action: str, retry: int = 3):
+        backoff = 5
+        data = {"action": action}
+
+        def _perform_server_action():
+            resp = self.session.post(
+                f"{self.base_url}/servers/{server_id}/action", json=data
+            )
+            resp.raise_for_status()
+            return resp.json()
+
+        while retry > 0:
+            retry -= 1
+
+            try:
+                return _perform_server_action()
+            except requests.HTTPError as err:
+                if retry == 0:
+                    raise err
+                else:
+                    backoff *= 2
+                    time.sleep(backoff)
+                    continue
 
     def poweron_server(self, server_id):
         return self.perform_server_action(server_id, action="poweron")
 
     def poweroff_server(self, server_id):
         return self.perform_server_action(server_id, action="poweroff")
+
+    def terminate_server(self, server_id: str):
+        return self.perform_server_action(server_id, action="terminate")
 
     def delete_server(self, server_id: str):
         resp = self.session.delete(f"{self.base_url}/servers/{server_id}")

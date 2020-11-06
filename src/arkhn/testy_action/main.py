@@ -32,16 +32,6 @@ def provision_server(project_id: str, image: Image, api: APIClient) -> dict:
     return server
 
 
-def withdraw_server(server: dict, api: APIClient) -> None:
-    api.poweroff_server(server["id"])
-
-    import time
-
-    time.sleep(40)
-
-    api.delete_server(server["id"])
-
-
 def main():
     parser = build_args_parser()
     args = parser.parse_args()
@@ -54,4 +44,4 @@ def main():
 
     time.sleep(20)
 
-    withdraw_server(server, api)
+    api.terminate_server(server["id"])
