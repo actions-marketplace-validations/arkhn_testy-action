@@ -1,7 +1,12 @@
+from enum import Enum
 import requests
 from typing import List, Optional
 
 KNOWN_ZONES = ["fr-par-1"]
+
+
+class Image(Enum):
+    UBUNTU = "Ubuntu 18.04 Bionic Beaver"
 
 
 class APIClient:
@@ -31,14 +36,16 @@ class APIClient:
     def create_server(
         self,
         name: str,
-        image_id: str,
+        image: Image,
         project_id: str,
         commercial_type: Optional[str] = "DEV1-S",
     ) -> dict:
+        ubuntu_image = self.find_image(name=image.value)
+
         data = {
             "name": name,
             "commercial_type": commercial_type,
-            "image": image_id,
+            "image": ubuntu_image["id"],
             "volumes": {},
             "project": project_id,
         }

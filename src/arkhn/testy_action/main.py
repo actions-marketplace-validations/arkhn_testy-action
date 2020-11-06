@@ -1,6 +1,6 @@
 import argparse
 
-from arkhn.testy_action.scaleway import APIClient
+from arkhn.testy_action.scaleway import APIClient, Image
 
 
 def build_args_parser() -> argparse.ArgumentParser:
@@ -25,11 +25,8 @@ def build_args_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def provision_server(api: APIClient) -> dict:
-    ubuntu_image = api.find_image(name="Ubuntu 18.04 Bionic Beaver")
-    server = api.create_server(
-        name="testy", image_id=ubuntu_image["id"], project_id=args.project_id
-    )
+def provision_server(project_id: str, image: Image, api: APIClient) -> dict:
+    server = api.create_server(name="testy", image=image, project_id=project_id)
     api.poweron_server(server["id"])
 
     return server
@@ -51,7 +48,7 @@ def main():
 
     api = APIClient(auth_token=args.token)
 
-    server = provision_server(api)
+    server = provision_server(project_id=args.project_id, image=Image.UBUNTU, api=api)
 
     import time
 
