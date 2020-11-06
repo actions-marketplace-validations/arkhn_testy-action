@@ -6,4 +6,4 @@ set -e
 # Trace execution
 [[ "${DEBUG}" ]] && set -x
 
-testy-action "${INPUT_CLOUDTOKEN}" "${INPUT_CLOUDPROJECTID}"
+testy-action "${INPUT_CONTEXTNAME:+--context-name $INPUT_CONTEXTNAME}" "${INPUT_CLOUDTOKEN}" "${INPUT_CLOUDPROJECTID}"

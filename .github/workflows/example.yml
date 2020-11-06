@@ -12,4 +12,4 @@ jobs:
         with:
           cloudToken: ${{ secrets.CLOUD_TOKEN }}
           cloudProjectId: ${{ secrets.CLOUD_PROJECT_ID }}
-          test: foobar
+          contextName: example-workflow-${{ github.sha }}

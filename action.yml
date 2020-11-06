@@ -7,9 +7,13 @@ inputs:
   cloudProjectId:
     description: "Project ID on the cloud platform"
     required: true
+  contextName:
+    description: "Optional name for the context"
+    required: false
 runs:
   using: "docker"
   image: "Dockerfile"
   args:
     - ${{ inputs.cloudToken }}
     - ${{ inputs.cloudProjectId }}
+    - ${{ inputs.contextName }}
