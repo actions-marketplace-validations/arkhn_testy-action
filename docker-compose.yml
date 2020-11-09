@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  action:
+    image: testy-action
+    build: .
+    environment:
+      INPUT_CLOUDTOKEN: ${CLOUD_TOKEN}
+      INPUT_CLOUDPROJECTID: ${CLOUD_PROJECT_ID}
+      INPUT_DEPLOYMENTTOKEN: |-
+        -----BEGIN OPENSSH PRIVATE KEY-----
+        PUT TOKEN HERE
+        -----END OPENSSH PRIVATE KEY-----
