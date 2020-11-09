@@ -8,7 +8,7 @@ set -e
 
 function clone_deployment() {
   mkdir -p ~/.ssh/deployment
-  echo "${INPUT_DEPLOYMENTTOKEN}" > ~/.ssh/deployment/deploy_key
+  echo "${INPUT_DEPLOYMENTTOKEN}" | base64 -d > ~/.ssh/deployment/deploy_key
   chmod 400 ~/.ssh/deployment/deploy_key
   cat > ~/.ssh/deployment/config <<-EOF
   Host github.com

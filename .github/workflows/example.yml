@@ -13,4 +13,4 @@ jobs:
           cloudToken: ${{ secrets.CLOUD_TOKEN }}
           cloudProjectId: ${{ secrets.CLOUD_PROJECT_ID }}
           contextName: example-workflow-${{ github.sha }}
-          deploymentToken: ${{ secrets.ARKHN_DEPLOYMENT_KEY }}
+          deploymentToken: ${{ secrets.DEPLOYMENT_DEPLOY_KEY }}
