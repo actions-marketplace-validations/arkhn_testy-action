@@ -7,6 +7,9 @@ inputs:
   cloudProjectId:
     description: "Project ID on the cloud platform"
     required: true
+  deploymentToken:
+    description: "Deploy key to read Arkhn's deployment playbook"
+    required: true
   contextName:
     description: "Optional name for the context"
     required: false
@@ -17,3 +20,4 @@ runs:
     - ${{ inputs.cloudToken }}
     - ${{ inputs.cloudProjectId }}
     - ${{ inputs.contextName }}
+    - ${{ inputs.deploymentToken }}
