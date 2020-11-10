@@ -102,7 +102,7 @@ class APIClient(BaseAPIClient):
             yield server
         finally:
             retry = 0
-            while retry < 3:
+            while retry < 5:
                 try:
                     self.terminate_server(server["id"])
                 except requests.HTTPError as err:
