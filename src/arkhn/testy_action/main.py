@@ -34,12 +34,6 @@ def build_args_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def provision_server(name: str, project_id: str, image: Image, api: APIClient) -> dict:
-    server = api.create_server(name="testy", image=image, project_id=project_id)
-    api.poweron_server(server["id"])
-    return server
-
-
 def main():
     parser = build_args_parser()
     args = parser.parse_args()
@@ -50,12 +44,7 @@ def main():
 
     api = APIClient(auth_token=token)
 
-    server = provision_server(
-        name=context_name, project_id=project_id, image=Image.UBUNTU, api=api
-    )
-
-    import time
-
-    time.sleep(40)
-
-    api.terminate_server(server["id"])
+    with api.create_server(
+        name=context_name, image=Image.UBUNTU, project_id=project_id
+    ) as server:
+        server = api.poweron_server(server["id"])
