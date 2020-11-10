@@ -1,7 +1,13 @@
 import argparse
+import logging
 import uuid
+from pprint import pprint
 
 from arkhn.testy_action.provision import APIClient, Image
+
+logging.basicConfig()
+
+logger = logging.getLogger(__name__)
 
 
 def build_args_parser() -> argparse.ArgumentParser:
@@ -38,13 +44,16 @@ def main():
     parser = build_args_parser()
     args = parser.parse_args()
 
-    token = args.token
-    project_id = args.project_id
+    if args.debug:
+        logging.getLogger().setLevel(logging.DEBUG)
+
     context_name = args.context_name or str(uuid.uuid4())
 
-    api = APIClient(auth_token=token)
+    api = APIClient(auth_token=args.token)
 
     with api.create_server(
-        name=context_name, image=Image.UBUNTU, project_id=project_id
+        name=context_name, image=Image.UBUNTU, project_id=args.project_id
     ) as server:
+        logger.info(pprint(server))
+
         server = api.poweron_server(server["id"])
