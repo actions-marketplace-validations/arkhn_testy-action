@@ -50,7 +50,7 @@ WORKDIR /srv
 
 RUN apt-get update \
     && apt-get upgrade -y \
-    && apt-get install -y git \
+    && apt-get install -y git rsync \
     && apt-get autoremove --purge -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
