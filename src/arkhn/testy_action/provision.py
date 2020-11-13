@@ -8,7 +8,7 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util import Retry
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__file__)
 
 
 class Image(Enum):
@@ -89,7 +89,8 @@ class APIClient(BaseAPIClient):
         name: str,
         image: Image,
         project_id: str,
-        commercial_type: Optional[str] = "DEV1-S",
+        commercial_type: Optional[str] = "DEV1-L",
+        terminate: bool = True,
     ) -> Iterator[dict]:
         server = self._create_server(
             name=name,
@@ -101,6 +102,10 @@ class APIClient(BaseAPIClient):
         try:
             yield server
         finally:
+            if not terminate:
+                logger.warning("Instance not terminated.")
+                return
+
             retry = 0
             while retry < 5:
                 try:

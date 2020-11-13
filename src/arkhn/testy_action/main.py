@@ -1,59 +1,48 @@
-import argparse
 import logging
-import uuid
-from pprint import pprint
+import pprint
+import time
+from pathlib import Path
 
+from arkhn.testy_action.args import parse_args
+from arkhn.testy_action.deploy import deploy_stack, make_host_vars
 from arkhn.testy_action.provision import APIClient, Image
+from arkhn.testy_action.utils import KeyscanError, add_instance_to_known_hosts
 
 logging.basicConfig()
 
-logger = logging.getLogger(__name__)
-
-
-def build_args_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        prog="testy-action",
-        description="Run Arkhn's integration test suites on cloud platform.",
-    )
-
-    parser.add_argument(
-        "token",
-        metavar="token",
-        type=str,
-        help="API token to authenticate to target cloud platform",
-    )
-    parser.add_argument(
-        "project_id",
-        metavar="project-id",
-        type=str,
-        help="Project ID on the cloud platform",
-    )
-    parser.add_argument(
-        "--context-name",
-        metavar="NAME",
-        dest="context_name",
-        default=None,
-        type=str,
-        help="Optional name for the context",
-    )
-
-    return parser
+logger = logging.getLogger(__file__)
 
 
 def main():
-    parser = build_args_parser()
-    args = parser.parse_args()
-
-    if args.debug:
-        logging.getLogger().setLevel(logging.DEBUG)
-
-    context_name = args.context_name or str(uuid.uuid4())
+    args = parse_args()
 
     api = APIClient(auth_token=args.token)
 
     with api.create_server(
-        name=context_name, image=Image.UBUNTU, project_id=args.project_id
+        name=args.context_name,
+        image=Image.UBUNTU,
+        project_id=args.project_id,
+        terminate=not args.debug,
     ) as server:
-        logger.info(pprint(server))
+        logger.debug(pprint.pformat(server))
 
-        server = api.poweron_server(server["id"])
+        api.poweron_server(server["id"])
+
+        while (server := api.get_server(server["id"])) and server["state"] != "running":
+            time.sleep(10)
+
+        try:
+            add_instance_to_known_hosts(
+                Path("known_hosts"), server["public_ip"]["address"]
+            )
+        except KeyscanError:
+            logger.error("Could not fetch instance fingerprints.")
+            exit(1)
+
+        deploy_stack(
+            runner_dir=args.runner_dir,
+            playbook_dir=args.playbook_dir,
+            host_vars=make_host_vars(
+                host=server["public_ip"]["address"], cloud_key_file=args.cloud_key
+            ),
+        )
