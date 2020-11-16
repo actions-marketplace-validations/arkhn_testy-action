@@ -20,11 +20,18 @@ function setup_cloud_key() {
 ####
 function clone_deployment() {
   deployment_dir="$1"
+  known_hosts_file="$2"
+  deploy_key=./deployment_deploy_key
 
-  echo "${INPUT_DEPLOYMENTTOKEN}" | base64 -d > deployment_deploy_key
-  chmod 400 deployment_deploy_key
-  ssh-keyscan -H github.com >> known_hosts
-  GIT_SSH_COMMAND="ssh -o IdentityFile=deployment_deploy_key -o IdentitiesOnly=yes -o UserKnownHostsFile=known_hosts" git clone git@github.com:arkhn/deployment.git "${deployment_dir}"
+  if [[ -d "${deployment_dir}" ]]; then
+    return
+  fi;
+
+  ssh-keyscan -H github.com >> "${known_hosts_file}"
+
+  echo "${INPUT_DEPLOYMENTTOKEN}" | base64 -d > "${deploy_key}"
+  chmod 400 "${deploy_key}"
+  GIT_SSH_COMMAND="ssh -o IdentityFile=${deploy_key} -o IdentitiesOnly=yes -o UserKnownHostsFile=${known_hosts_file}" git clone git@github.com:arkhn/deployment.git "${deployment_dir}"
 
   pushd deployment/stack
   ansible-galaxy role install -r requirements.yml
@@ -32,13 +39,27 @@ function clone_deployment() {
   popd
 }
 
-setup_cloud_key
+###
+# Clone public tests.
+###
+function clone_tests() {
+  tests_dir="$1"
 
+  if [[ -d "${tests_dir}" ]]; then
+    return
+  fi;
+
+  git clone https://github.com/arkhn/testy.git "${tests_dir}"
+}
+
+
+known_hosts_file=./known_hosts
 deployment_dir=./deployment
+tests_dir=./testy
 
-if [[ ! -d "${deployment_dir}" ]]; then
-  clone_deployment "${deployment_dir}"
-fi
+clone_deployment "${deployment_dir}" "${known_hosts_file}"
+clone_tests "${tests_dir}"
+setup_cloud_key
 
 # Build arguments array for testy-action
 declare -a flags
