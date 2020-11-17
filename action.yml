@@ -1,4 +1,4 @@
-name: "Testy action"
+name: "Arkhn's testy action"
 description: "GitHub Action to run Arkhn's integration test suite"
 inputs:
   cloudToken:
