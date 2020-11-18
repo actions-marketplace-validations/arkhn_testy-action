@@ -43,6 +43,8 @@ def main():
             runner_dir=args.runner_dir,
             playbook_dir=args.playbook_dir,
             host_vars=make_host_vars(
-                host=server["public_ip"]["address"], cloud_key_file=args.cloud_key
+                host=server["public_ip"]["address"],
+                cloud_key_file=args.cloud_key,
+                versions=args.versions,
             ),
         )

@@ -1,12 +1,17 @@
 import logging
 from pathlib import Path
+from typing import Dict
 
 import ansible_runner
 
 logger = logging.getLogger(__file__)
 
 
-def make_host_vars(host: str, cloud_key_file: Path, **kwargs) -> dict:
+def make_host_vars(
+    host: str, cloud_key_file: Path, versions: Dict[str, str], **kwargs
+) -> dict:
+    versions_vars = {f"{k}_version": v for k, v in versions.items()}
+
     return {
         "ansible_host": host,
         "ansible_user": "root",
@@ -18,6 +23,7 @@ def make_host_vars(host: str, cloud_key_file: Path, **kwargs) -> dict:
         "use_ssl": False,
         "public_port": 8080,
         "env": "test",
+        **versions_vars,
         **kwargs,
     }
 
