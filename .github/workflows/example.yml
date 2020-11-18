@@ -15,3 +15,31 @@ jobs:
           cloudKey: ${{ secrets.CLOUD_KEY }}
           contextName: example-workflow-${{ github.sha }}
           deploymentToken: ${{ secrets.DEPLOYMENT_DEPLOY_KEY }}
+          versions: |
+            {
+              "cadvisor": "latest",
+              "cleaning_scripts": "0.1.1",
+              "elasticsearch": "7.7.1",
+              "fhir_api": "0.2.0",
+              "fhir_river": "0.1.0",
+              "fluentd": "latest",
+              "front_api": "0.1.0",
+              "grafana": "latest",
+              "hydra": "v1.7.4",
+              "identity_provider": "0.1.0",
+              "kafka": "0.10.2.1",
+              "kibana": "7.7.0",
+              "mimic_db": "latest",
+              "mongo": "4.2.1",
+              "monstache": "6.6.0",
+              "nginx": "1.17.3",
+              "pagai": "0.1.0",
+              "postgres": "12",
+              "prometheus": "latest",
+              "pyrog_client": "0.1.0",
+              "pyrog_redis": "5.0.7",
+              "pyrog_server": "0.1.0",
+              "register_hydra_clients": "latest",
+              "river_redis": "5.0.7",
+              "zookeeper": "3.4.10"
+            }

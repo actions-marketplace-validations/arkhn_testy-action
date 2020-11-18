@@ -70,6 +70,10 @@ if [[ ! -z "${INPUT_CONTEXTNAME}" ]]; then
   flags+=(--context-name ${INPUT_CONTEXTNAME})
 fi
 
+if [[ ! -z "${INPUT_VERSIONS}" ]]; then
+  flags+=(--versions "${INPUT_VERSIONS}")
+fi
+
 if [[ "${DEBUG}" ]]; then
   flags+=(--debug)
 fi

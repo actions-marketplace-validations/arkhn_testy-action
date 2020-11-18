@@ -5,9 +5,37 @@ services:
     image: testy-action
     build: .
     environment:
+      DEBUG: "True"
       INPUT_CLOUDTOKEN: ${CLOUD_TOKEN}
       INPUT_CLOUDPROJECTID: ${CLOUD_PROJECT_ID}
       INPUT_CLOUDKEY: ${CLOUD_KEY}
       INPUT_CONTEXTNAME: ${CONTEXT_NAME}
       INPUT_DEPLOYMENTTOKEN: ${DEPLOYMENT_TOKEN}
-      DEBUG: "True"
+      INPUT_VERSIONS: |
+        {
+          "cadvisor": "latest",
+          "cleaning_scripts": "0.1.1",
+          "elasticsearch": "7.7.1",
+          "fhir_api": "0.2.0",
+          "fhir_river": "0.1.0",
+          "fluentd": "latest",
+          "front_api": "0.1.0",
+          "grafana": "latest",
+          "hydra": "v1.7.4",
+          "identity_provider": "0.1.0",
+          "kafka": "0.10.2.1",
+          "kibana": "7.7.0",
+          "mimic_db": "latest",
+          "mongo": "4.2.1",
+          "monstache": "6.6.0",
+          "nginx": "1.17.3",
+          "pagai": "0.1.0",
+          "postgres": "12",
+          "prometheus": "latest",
+          "pyrog_client": "0.1.0",
+          "pyrog_redis": "5.0.7",
+          "pyrog_server": "0.1.0",
+          "register_hydra_clients": "latest",
+          "river_redis": "5.0.7",
+          "zookeeper": "3.4.10"
+        }

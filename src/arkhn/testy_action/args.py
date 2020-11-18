@@ -1,4 +1,5 @@
 import argparse
+import json
 import logging
 import uuid
 from pathlib import Path
@@ -25,6 +26,18 @@ def file_path(value: str) -> Path:
         return path
     else:
         raise argparse.ArgumentTypeError(f"{value} is not a file")
+
+
+def json_object(value: str) -> dict:
+    try:
+        parsed = json.loads(value)
+    except json.JSONDecodeError as err:
+        raise argparse.ArgumentTypeError(err)
+
+    if not isinstance(parsed, dict):
+        raise argparse.ArgumentTypeError("Not an json objet.")
+
+    return parsed
 
 
 def build_args_parser() -> argparse.ArgumentParser:
@@ -78,6 +91,13 @@ def build_args_parser() -> argparse.ArgumentParser:
         default=runner_dir_default,
         type=dir_path,
         help=f"Optional path for the runner output. Defaults to {runner_dir_default}",
+    )
+    parser.add_argument(
+        "--versions",
+        metavar="VERSIONS_MAP",
+        default={},
+        type=json_object,
+        help="Optional versions mapping, to override a subset of the default versions.",
     )
     parser.add_argument("--debug", action="store_true", help="Increase verbosity.")
 

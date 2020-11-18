@@ -1,5 +1,6 @@
 name: "Arkhn's testy action"
 description: "GitHub Action to run Arkhn's integration test suite"
+
 inputs:
   cloudToken:
     description: "API token to authenticate to target cloud platform"
@@ -16,6 +17,10 @@ inputs:
   contextName:
     description: "Optional name for the context"
     required: false
+  versions:
+    description: "List of image versions"
+    required: false
+
 runs:
   using: "docker"
   image: "Dockerfile"
@@ -25,3 +30,4 @@ runs:
     - ${{ inputs.cloudKey }}
     - ${{ inputs.contextName }}
     - ${{ inputs.deploymentToken }}
+    - ${{ inputs.versions }}
