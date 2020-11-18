@@ -17,6 +17,7 @@ def make_host_vars(host: str, cloud_key_file: Path, **kwargs) -> dict:
         "stage": "aphp",
         "use_ssl": False,
         "public_port": 8080,
+        "env": "test",
         **kwargs,
     }
 
