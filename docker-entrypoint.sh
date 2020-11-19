@@ -39,26 +39,10 @@ function clone_deployment() {
   popd
 }
 
-###
-# Clone public tests.
-###
-function clone_tests() {
-  tests_dir="$1"
-
-  if [[ -d "${tests_dir}" ]]; then
-    return
-  fi;
-
-  git clone https://github.com/arkhn/testy.git "${tests_dir}"
-}
-
-
 known_hosts_file=./known_hosts
 deployment_dir=./deployment
-tests_dir=./testy
 
 clone_deployment "${deployment_dir}" "${known_hosts_file}"
-clone_tests "${tests_dir}"
 setup_cloud_key
 
 # Build arguments array for testy-action
