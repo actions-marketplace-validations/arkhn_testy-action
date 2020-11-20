@@ -34,9 +34,12 @@ function clone_deployment() {
   echo "${INPUT_DEPLOYMENTTOKEN}" | base64 -d > "${deploy_key}"
   chmod 400 "${deploy_key}"
   GIT_SSH_COMMAND="ssh -o IdentityFile=${deploy_key} -o IdentitiesOnly=yes -o UserKnownHostsFile=${known_hosts_file}" git clone git@github.com:arkhn/deployment.git "${deployment_dir}"
-  git clone "${deployment_ref}"
 
-  pushd deployment/stack
+  pushd "${deployment_dir}"
+  git checkout "${deployment_ref}"
+  popd
+
+  pushd "${deployment_dir}/stack"
   ansible-galaxy role install -r requirements.yml
   ansible-galaxy collection install -r requirements.yml
   popd

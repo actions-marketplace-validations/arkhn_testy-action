@@ -15,7 +15,8 @@ jobs:
           cloudKey: ${{ secrets.CLOUD_KEY }}
           contextName: example-workflow-${{ github.sha }}
           deploymentToken: ${{ secrets.DEPLOYMENT_DEPLOY_KEY }}
-          deploymentRef: master
+          # TODO(vmttn): set ref to master once arkhn/deployment/sv/config-e2e-tests is merged
+          deploymentRef: sv/config-e2e-tests
           versions: |
             {
               "cadvisor": "latest",
