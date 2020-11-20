@@ -14,6 +14,10 @@ inputs:
   deploymentToken:
     description: "Deploy key to read Arkhn's deployment playbook"
     required: true
+  deploymentRef:
+    description: "Git ref (commit or branch) on Arkhn's deployment to checkout"
+    required: false
+    default: master
   contextName:
     description: "Optional name for the context"
     required: false
@@ -30,4 +34,5 @@ runs:
     - ${{ inputs.cloudKey }}
     - ${{ inputs.contextName }}
     - ${{ inputs.deploymentToken }}
+    - ${{ inputs.deploymentRef }}
     - ${{ inputs.versions }}

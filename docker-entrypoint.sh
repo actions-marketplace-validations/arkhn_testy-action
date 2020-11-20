@@ -20,6 +20,8 @@ function setup_cloud_key() {
 ####
 function clone_deployment() {
   deployment_dir="$1"
+  deployment_ref="$3"
+
   known_hosts_file="$2"
   deploy_key=./deployment_deploy_key
 
@@ -32,6 +34,7 @@ function clone_deployment() {
   echo "${INPUT_DEPLOYMENTTOKEN}" | base64 -d > "${deploy_key}"
   chmod 400 "${deploy_key}"
   GIT_SSH_COMMAND="ssh -o IdentityFile=${deploy_key} -o IdentitiesOnly=yes -o UserKnownHostsFile=${known_hosts_file}" git clone git@github.com:arkhn/deployment.git "${deployment_dir}"
+  git clone "${deployment_ref}"
 
   pushd deployment/stack
   ansible-galaxy role install -r requirements.yml
@@ -41,8 +44,9 @@ function clone_deployment() {
 
 known_hosts_file=./known_hosts
 deployment_dir=./deployment
+deployment_ref="${INPUT_DEPLOYMENTREF}"
 
-clone_deployment "${deployment_dir}" "${known_hosts_file}"
+clone_deployment "${deployment_dir}" "${known_hosts_file}" "${deployment_ref}"
 setup_cloud_key
 
 # Build arguments array for testy-action
