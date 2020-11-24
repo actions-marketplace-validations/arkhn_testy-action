@@ -39,7 +39,7 @@ def main():
             logger.error("Could not fetch instance fingerprints.")
             exit(1)
 
-        deploy_stack(
+        ansible_return_code = deploy_stack(
             runner_dir=args.runner_dir,
             playbook_dir=args.playbook_dir,
             host_vars=make_host_vars(
@@ -48,3 +48,4 @@ def main():
                 versions=args.versions,
             ),
         )
+        exit(ansible_return_code)

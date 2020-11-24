@@ -28,19 +28,16 @@ def make_host_vars(
     }
 
 
-def deploy_stack(
-    runner_dir: Path,
-    playbook_dir: Path,
-    host_vars: dict,
-):
+def deploy_stack(runner_dir: Path, playbook_dir: Path, host_vars: dict) -> int:
     inventory = {"all": {"hosts": {"test": host_vars}}}
 
     logger.debug(inventory)
 
-    ansible_runner.interface.run(
+    result: ansible_runner.Runner = ansible_runner.interface.run(
         playbook="play.yml",
         private_data_dir=str(runner_dir),
         project_dir=str(playbook_dir),
         inventory=inventory,
         extravars={"host_is_bounded": True},
     )
+    return result.rc
