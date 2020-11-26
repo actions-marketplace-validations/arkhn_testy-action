@@ -9,12 +9,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./
-        env:
-          DEBUG: "True"
         with:
           cloudToken: ${{ secrets.TESTY_CLOUD_TOKEN }}
           cloudProjectId: ${{ secrets.TESTY_CLOUD_PROJECT_ID }}
-          cloudKey: ${{ secrets.CLOUD_KEY }}
+          cloudKey: ${{ secrets.TESTY_CLOUD_KEY }}
           contextName: example-workflow-${{ github.sha }}
           deploymentToken: ${{ secrets.GIT_USER_KEY }}
           versions: |
