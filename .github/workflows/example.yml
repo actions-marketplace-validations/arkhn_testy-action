@@ -9,6 +9,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./
+        env:
+          DEBUG: "True"
         with:
           cloudToken: ${{ secrets.TESTY_CLOUD_TOKEN }}
           cloudProjectId: ${{ secrets.TESTY_CLOUD_PROJECT_ID }}
