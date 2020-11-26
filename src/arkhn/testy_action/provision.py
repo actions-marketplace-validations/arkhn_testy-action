@@ -89,7 +89,7 @@ class APIClient(BaseAPIClient):
         name: str,
         image: Image,
         project_id: str,
-        commercial_type: Optional[str] = "DEV1-L",
+        commercial_type: Optional[str] = "GP1-S",
         terminate: bool = True,
     ) -> Iterator[dict]:
         server = self._create_server(
