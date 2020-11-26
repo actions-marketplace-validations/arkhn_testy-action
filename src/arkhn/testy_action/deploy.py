@@ -39,5 +39,6 @@ def deploy_stack(runner_dir: Path, playbook_dir: Path, host_vars: dict) -> int:
         project_dir=str(playbook_dir),
         inventory=inventory,
         extravars={"host_is_bounded": True},
+        verbosity=2
     )
     return result.rc
