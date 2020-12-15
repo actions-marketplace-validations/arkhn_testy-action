@@ -23,6 +23,8 @@ def make_host_vars(
         "use_ssl": False,
         "public_port": 8080,
         "env": "test",
+        "postgres_root_user": "postgres",
+        "postgres_root_password": "yeahsexiscoolbuthaveyoutriedpyrog?",
         **versions_vars,
         **kwargs,
     }
