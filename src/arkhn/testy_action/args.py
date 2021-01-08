@@ -99,7 +99,10 @@ def build_args_parser() -> argparse.ArgumentParser:
         type=json_object,
         help="Optional versions mapping, to override a subset of the default versions.",
     )
-    parser.add_argument("--debug", action="store_true", help="Increase verbosity.")
+    parser.add_argument(
+        "--debug", action="store_true", help="Keep provisionned server up."
+    )
+    parser.add_argument("--verbose", action="store_true", help="Increase verbosity.")
 
     return parser
 
@@ -107,7 +110,7 @@ def build_args_parser() -> argparse.ArgumentParser:
 def parse_args() -> argparse.Namespace:
     parser = build_args_parser()
     args = parser.parse_args()
-    if args.debug:
+    if args.verbose:
         logging.getLogger().setLevel(logging.DEBUG)
     logger.debug(args)
     return args
