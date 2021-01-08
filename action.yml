@@ -24,6 +24,9 @@ inputs:
   versions:
     description: "List of image versions"
     required: false
+  verbose:
+    description: "Increase verbosity"
+    required: false
 
 runs:
   using: "docker"
@@ -36,3 +39,4 @@ runs:
     - ${{ inputs.deploymentToken }}
     - ${{ inputs.deploymentRef }}
     - ${{ inputs.versions }}
+    - ${{ inputs.verbose }}

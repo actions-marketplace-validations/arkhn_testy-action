@@ -69,4 +69,8 @@ if [[ "${DEBUG}" ]]; then
   flags+=(--debug)
 fi
 
+if [[ ! -z "${INPUT_VERBOSE}" ]]; then
+  flags+=(--verbose)
+fi
+
 testy-action "${flags[@]}"
