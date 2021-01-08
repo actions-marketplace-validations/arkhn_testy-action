@@ -15,6 +15,7 @@ jobs:
           cloudKey: ${{ secrets.TESTY_CLOUD_KEY }}
           contextName: example-workflow-${{ github.sha }}
           deploymentToken: ${{ secrets.GIT_USER_KEY }}
+          verbose: true
           versions: |
             {
               "cadvisor": "latest"
