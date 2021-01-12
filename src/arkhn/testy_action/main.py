@@ -32,10 +32,12 @@ def main():
             time.sleep(10)
 
         try:
-            add_instance_to_known_hosts(Path("known_hosts"), server["public_ip"]["address"])
+            add_instance_to_known_hosts(
+                Path("known_hosts"), server["public_ip"]["address"]
+            )
         except KeyscanError:
             logger.error("Could not fetch instance fingerprints.")
-            return 1
+            exit(1)
 
         ansible_return_code = deploy_stack(
             runner_dir=args.runner_dir,
@@ -46,4 +48,4 @@ def main():
                 versions=args.versions,
             ),
         )
-        return ansible_return_code
+        exit(ansible_return_code)
