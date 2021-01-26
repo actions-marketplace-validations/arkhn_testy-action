@@ -65,7 +65,7 @@ if [[ ! -z "${INPUT_VERSIONS}" ]]; then
   flags+=(--versions "${INPUT_VERSIONS}")
 fi
 
-if [[ "${DEBUG}" ]]; then
+if [[ ! -z "${INPUT_DEBUG}" ]]; then
   flags+=(--debug)
 fi
 
