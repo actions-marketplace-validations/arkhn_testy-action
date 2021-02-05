@@ -104,18 +104,17 @@ class APIClient(BaseAPIClient):
         finally:
             if not terminate:
                 logger.warning("Instance not terminated.")
-                return
-
-            retry = 0
-            while retry < 5:
-                try:
-                    self.terminate_server(server["id"])
-                except requests.HTTPError as err:
-                    if err.response.status_code == 400:
-                        time.sleep(10 * 2 ** (retry - 1))  # 5, 10, 20, etc.
-                        retry += 1
-                        continue
-                break
+            else:
+                retry = 0
+                while retry < 5:
+                    try:
+                        self.terminate_server(server["id"])
+                    except requests.HTTPError as err:
+                        if err.response.status_code == 400:
+                            time.sleep(10 * 2 ** (retry - 1))  # 5, 10, 20, etc.
+                            retry += 1
+                            continue
+                    break
 
     def get_server(self, server_id: str):
         resp = self._session.get(f"{self.base_url}/servers/{server_id}")
