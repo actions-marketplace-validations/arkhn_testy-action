@@ -18,7 +18,7 @@ def make_host_vars(
         "ansible_ssh_private_key_file": str(cloud_key_file),
         "extended_stack": False,
         "public_host": "localhost",
-        "api_domain": "reverse-proxy",
+        "api_domain": "nginx",
         "stage": "aphp",
         "use_ssl": False,
         "public_port": 8080,
