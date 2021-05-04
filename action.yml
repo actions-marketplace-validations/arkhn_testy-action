@@ -17,7 +17,7 @@ inputs:
   deploymentRef:
     description: "Git ref (commit or branch) on Arkhn's deployment to checkout"
     required: false
-    default: master
+    default: main
   contextName:
     description: "Optional name for the context"
     required: false
