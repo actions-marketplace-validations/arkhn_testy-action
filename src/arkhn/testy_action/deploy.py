@@ -19,7 +19,6 @@ def make_host_vars(
         "extended_stack": False,
         "public_host": "localhost",
         "api_domain": "nginx",
-        "stage": "aphp",
         "use_ssl": False,
         "public_port": 8080,
         "env": "test",

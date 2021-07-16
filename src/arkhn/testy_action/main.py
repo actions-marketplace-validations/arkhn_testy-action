@@ -46,6 +46,8 @@ def main():
                 host=server["public_ip"]["address"],
                 cloud_key_file=args.cloud_key,
                 versions=args.versions,
+                docker_username=args.docker_username,
+                docker_password=args.docker_password,
             ),
         )
         exit(ansible_return_code)

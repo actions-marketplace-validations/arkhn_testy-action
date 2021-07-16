@@ -54,7 +54,7 @@ setup_cloud_key
 
 # Build arguments array for testy-action
 declare -a flags
-flags=("${INPUT_CLOUDTOKEN}" "${INPUT_CLOUDPROJECTID}" cloud_private_key)
+flags=("${INPUT_CLOUDTOKEN}" "${INPUT_CLOUDPROJECTID}" cloud_private_key "${INPUT_DOCKERUSERNAME}" "${INPUT_DOCKERPASSWORD}")
 flags+=(--playbook-dir deployment/stack)
 
 if [[ ! -z "${INPUT_CONTEXTNAME}" ]]; then

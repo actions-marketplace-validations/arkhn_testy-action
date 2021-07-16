@@ -64,6 +64,18 @@ def build_args_parser() -> argparse.ArgumentParser:
         help=("Path to the private ssh key to connect to the provisionned server."),
     )
     parser.add_argument(
+        "docker_username",
+        metavar="docker-username",
+        type=str,
+        help=("Username used to login to the Docker hub"),
+    )
+    parser.add_argument(
+        "docker_password",
+        metavar="docker-password",
+        type=str,
+        help=("Password used to login to the Docker hub"),
+    )
+    parser.add_argument(
         "--context-name",
         metavar="NAME",
         dest="context_name",
