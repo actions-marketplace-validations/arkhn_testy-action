@@ -7,9 +7,7 @@ import ansible_runner
 logger = logging.getLogger(__file__)
 
 
-def make_host_vars(
-    host: str, cloud_key_file: Path, versions: Dict[str, str], **kwargs
-) -> dict:
+def make_host_vars(host: str, cloud_key_file: Path, versions: Dict[str, str], **kwargs) -> dict:
     versions_vars = {f"{k}_version": v for k, v in versions.items()}
 
     return {
@@ -24,6 +22,27 @@ def make_host_vars(
         "env": "test",
         "postgres_root_user": "postgres",
         "postgres_root_password": "yeahsexiscoolbuthaveyoutriedpyrog?",
+        "nginx_auth_user": "changeme",
+        "nginx_auth_password": "changeme",
+        "river_django_secret": "changeme",
+        "river_postgres_user": "river",
+        "river_postgres_password": "changeme",
+        "hapi_loader_postgres_user": "hapi-loader",
+        "hapi_loader_postgres_password": "changeme",
+        "jpaltime_postgres_user": "jpaltime",
+        "jpaltime_postgres_password": "changeme",
+        "es_user": "elastic",
+        "es_password": "changeme",
+        "pyrog_app_secret": "deadbeefdeadbeefdeadbeefdeadbeef",
+        "pyrog_postgres_user": "pyrog",
+        "pyrog_postgres_password": "changeme",
+        "hydra_secrets_system": "changemeImustbelongerthan16",
+        "hydra_sub_identifier_pairwise_salt": "changeme",
+        "hydra_postgres_user": "hydra",
+        "hydra_postgres_password": "changeme",
+        "identity_provider_postgres_user": "identity-provider",
+        "identity_provider_postgres_password": "changeme",
+        "identity_provider_store_secret": "changeme",
         **versions_vars,
         **kwargs,
     }
@@ -40,6 +59,6 @@ def deploy_stack(runner_dir: Path, playbook_dir: Path, host_vars: dict) -> int:
         project_dir=str(playbook_dir),
         inventory=inventory,
         extravars={"host_is_bounded": True},
-        verbosity=2
+        verbosity=2,
     )
     return result.rc
