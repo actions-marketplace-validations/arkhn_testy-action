@@ -43,6 +43,11 @@ def make_host_vars(host: str, cloud_key_file: Path, versions: Dict[str, str], **
         "identity_provider_postgres_user": "identity-provider",
         "identity_provider_postgres_password": "changeme",
         "identity_provider_store_secret": "changeme",
+        "new_pyrog_django_superuser_username": "admin",
+        "new_pyrog_django_superuser_email": "admin@arkhn.com",
+        "new_pyrog_django_superuser_password": "admin",
+        "new_pyrog_django_oidc_client_id": "client_id",
+        "new_pyrog_django_oidc_client_secret": "secret",
         **versions_vars,
         **kwargs,
     }
