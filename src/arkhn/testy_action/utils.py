@@ -15,14 +15,19 @@ def add_instance_to_known_hosts(known_hosts: Path, host: str) -> None:
     with open(known_hosts, "a+") as fd:
         retry = 0
         while retry < 5:
-            keyscan = subprocess.run(
-                ["ssh-keyscan", "-t", "rsa", host],
-                stdout=subprocess.PIPE,
-                check=True,
-            )
-            if "ssh-rsa" in str(keyscan.stdout):
-                fd.write(str(keyscan.stdout))
-                return
+            try:
+                keyscan = subprocess.run(
+                    ["ssh-keyscan", "-t", "rsa", host],
+                    stdout=subprocess.PIPE,
+                    check=True,
+                )
+                if "ssh-rsa" in str(keyscan.stdout):
+                    fd.write(str(keyscan.stdout))
+                    return
+            # instance might be unavailable for a few seconds
+            except subprocess.CalledProcessError:
+                pass
+            logger.debug("retrying...")
             time.sleep(10 * 2 ** retry)  # 10, 20, etc.
             retry += 1
         raise KeyscanError
